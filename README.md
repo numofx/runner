@@ -1,4 +1,4 @@
-# Numo Engine Arbitrage Bot
+# Runner 🏃
 
 An automated arbitrage bot that keeps the discount factors of **Numo Engine pools** (e.g. `USDT/fyUSDT` pools) aligned with real-world fixed-income markets by executing profitable trades when prices diverge from the SOFR curve.
 
@@ -33,15 +33,12 @@ The bot uses `NumoArbRouter.sol` to execute atomic arbitrage:
 # Install Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-# Install Foundry (for contract deployment)
-curl -L https://foundry.paradigm.xyz | bash
 foundryup
 ```
 
 ### Build
 
 ```bash
-# Build the bot
 cargo build --release
 
 # Binary will be at: ./target/release/numo
@@ -53,7 +50,6 @@ Copy and edit the `.env.example` file:
 
 ```bash
 cp .env.example .env
-# Edit .env with your configuration
 ```
 
 Required configuration:
@@ -79,10 +75,9 @@ forge create src/NumoArbRouter.sol:NumoArbRouter \
 ### Run
 
 ```bash
-# Run the bot
 ./target/release/numo
 
-# Or with explicit config
+# explicit config
 ./target/release/numo \
   --wss wss://forno.celo.org/ws \
   --private-key YOUR_KEY \
@@ -122,16 +117,12 @@ See `.env.example` for all available configuration options:
 ## Development
 
 ```bash
-# Check compilation
 cargo check -p numo-arb
 
-# Run tests
 cargo test
 
-# Format code
 cargo fmt
 
-# Lint
 cargo clippy
 ```
 
