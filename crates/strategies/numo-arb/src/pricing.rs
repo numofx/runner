@@ -139,7 +139,7 @@ pub fn calculate_profit(
 /// Calculate slippage-adjusted amounts
 /// Adds slippage_bps to maxIn, subtracts from minOut
 pub fn apply_slippage(amount: u128, slippage_bps: u32, is_max_in: bool) -> u128 {
-    let adjustment = (amount as u128 * slippage_bps as u128) / 10_000;
+    let adjustment = (amount * slippage_bps as u128) / 10_000;
 
     if is_max_in {
         // For max_in, add slippage buffer

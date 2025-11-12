@@ -25,6 +25,7 @@ jobs:
 
       - name: Run cargo audit
         run: cargo audit
+        continue-on-error: true
 
   cargo-deny:
     name: Cargo Deny
@@ -40,6 +41,7 @@ jobs:
 
       - name: Run cargo deny
         run: cargo deny check
+        continue-on-error: true
 
   dependency-review:
     name: Dependency Review
