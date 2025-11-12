@@ -1,0 +1,22 @@
+[package]
+name = "numo-arb"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+## core
+artemis-core = { path = "../../artemis-core" }
+numo-bindings = { path = "./bindings" }
+
+## eth
+ethers.workspace = true
+
+## async
+async-trait = "0.1.64"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
+
+## misc
+anyhow = "1.0.70"
+tracing = "0.1.37"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
