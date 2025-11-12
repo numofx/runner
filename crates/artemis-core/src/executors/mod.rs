@@ -9,4 +9,5 @@ pub mod flashbots_executor;
 pub mod mempool_executor;
 
 /// This executor submits bundles to the flashbots matchmaker.
-pub mod mev_share_executor;
+// Temporarily disabled due to jsonrpsee API incompatibility
+// pub mod mev_share_executor;

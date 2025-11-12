@@ -14,4 +14,5 @@ pub mod mempool_collector;
 /// This collector listens to a stream of new Opensea orders.
 pub mod opensea_order_collector;
 
-pub mod mevshare_collector;
+// Temporarily disabled due to jsonrpsee API incompatibility
+// pub mod mevshare_collector;
