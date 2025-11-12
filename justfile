@@ -1,34 +1,44 @@
 set dotenv-load := true
 
-#test contracts using forge
-build-contracts:
-    forge install --root ./contracts
-    forge test --root ./contracts
+# Build the numo binary
+build:
+    cargo build --release
 
+# Run the numo bot
+run:
+    ./target/release/numo
 
-#test contracts using forge
-test-contracts: 
-    forge test --root ./contracts
+# Check compilation without building
+check:
+    cargo check -p numo-arb
+    cargo check -p numo
 
-#download source code from etherscan for members of the protocols.json file
-download-protocol-sources: 
-    #!/usr/bin/env bash
-    for name in $(jq -r 'keys[]' protocols.json); do
-        address=$(jq -r ".$name" protocols.json)
-        echo "Downloading $name from $address"
-        cast etherscan-source --etherscan-api-key $ETHERSCAN_API_KEY -d ./contracts/src/protocols $address
-    done
+# Run tests
+test:
+    cargo test
 
-#generate bindings for elements of the contracts directory
-generate-bindings: 
-    forge bind --bindings-path ./bindings --root ./contracts --crate-name bindings --force
-
-#download sources and generate bindings
-build-bindings-crate: download-protocol-sources generate-bindings
-
-fmt: 
+# Format code
+fmt:
     cargo +nightly fmt --all
 
-clippy: 
+# Lint code
+clippy:
     cargo clippy --all --all-features
 
+# Clean build artifacts
+clean:
+    cargo clean
+
+# Deploy router contract to Celo Alfajores testnet
+deploy-router-testnet:
+    #!/usr/bin/env bash
+    cd crates/strategies/numo-arb/contracts
+    echo "Deploying NumoArbRouter to Celo Alfajores..."
+    forge create src/NumoArbRouter.sol:NumoArbRouter \
+        --rpc-url https://alfajores-forno.celo-testnet.org \
+        --private-key $PRIVATE_KEY \
+        --constructor-args $BASE_TOKEN_ADDRESS $FY_TOKEN_ADDRESS
+
+# Show help
+help:
+    @just --list

@@ -1,5 +1,4 @@
 /// Types for the Numo arbitrage strategy
-
 use ethers::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -36,11 +35,11 @@ impl Default for Config {
         Self {
             router_address: Address::zero(),
             pool_addresses: vec![],
-            edge_bps: 10,          // 0.10% minimum edge
-            slippage_bps: 50,      // 0.50% slippage tolerance
-            max_fy_amount: 100_000u128 * 10u128.pow(18), // 100k tokens
+            edge_bps: 10,                                 // 0.10% minimum edge
+            slippage_bps: 50,                             // 0.50% slippage tolerance
+            max_fy_amount: 100_000u128 * 10u128.pow(18),  // 100k tokens
             max_base_amount: 50_000u128 * 10u128.pow(18), // 50k tokens
-            bid_percentage: 80,    // Bid 80% of profit in gas
+            bid_percentage: 80,                           // Bid 80% of profit in gas
         }
     }
 }
@@ -91,4 +90,3 @@ impl ArbOpportunity {
         (self.expected_profit as i128) - (gas_cost as i128)
     }
 }
-

@@ -1,6 +1,5 @@
 /// Pricing module for Numo Engine pools
 /// Calculates marginal prices and solves for optimal trade sizes
-
 use anyhow::Result;
 use ethers::prelude::*;
 
@@ -37,7 +36,10 @@ pub async fn marginal_price_base_per_fy<M: Middleware + 'static>(
 
     // Probe 2: Sell small amount of FY, see how much base we get
     // Price2 = base_out / fy_in (base per FY)
-    let base_out = pool.sell_fy_token_preview(PRICE_PROBE_AMOUNT).call().await?;
+    let base_out = pool
+        .sell_fy_token_preview(PRICE_PROBE_AMOUNT)
+        .call()
+        .await?;
     let base_out = base_out.max(1);
 
     let price2 = U256::from(base_out) * one_e18 / U256::from(PRICE_PROBE_AMOUNT);
@@ -166,11 +168,7 @@ pub fn price_divergence_bps(pool_price: U256, target_price: U256) -> u32 {
 }
 
 /// Check if arbitrage opportunity meets minimum edge threshold
-pub fn meets_edge_threshold(
-    pool_price: U256,
-    target_price: U256,
-    edge_bps: u32,
-) -> bool {
+pub fn meets_edge_threshold(pool_price: U256, target_price: U256, edge_bps: u32) -> bool {
     let divergence = price_divergence_bps(pool_price, target_price);
     divergence >= edge_bps
 }

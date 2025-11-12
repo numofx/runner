@@ -1,6 +1,5 @@
 /// SOFR (Secured Overnight Financing Rate) curve module
 /// Implements discount factor calculations using ACT/360 day count convention
-
 use serde::{Deserialize, Serialize};
 
 /// Day count convention for fixed income calculations
@@ -63,12 +62,30 @@ impl SofrCurve {
     pub fn default_usd() -> Self {
         Self {
             knots: vec![
-                CurveKnot { t: 0.0028, rate: 0.0520 }, // ~1 day
-                CurveKnot { t: 0.0833, rate: 0.0515 }, // 1 month
-                CurveKnot { t: 0.25, rate: 0.0500 },   // 3 months
-                CurveKnot { t: 0.50, rate: 0.0475 },   // 6 months
-                CurveKnot { t: 1.00, rate: 0.0450 },   // 1 year
-                CurveKnot { t: 2.00, rate: 0.0425 },   // 2 years
+                CurveKnot {
+                    t: 0.0028,
+                    rate: 0.0520,
+                }, // ~1 day
+                CurveKnot {
+                    t: 0.0833,
+                    rate: 0.0515,
+                }, // 1 month
+                CurveKnot {
+                    t: 0.25,
+                    rate: 0.0500,
+                }, // 3 months
+                CurveKnot {
+                    t: 0.50,
+                    rate: 0.0475,
+                }, // 6 months
+                CurveKnot {
+                    t: 1.00,
+                    rate: 0.0450,
+                }, // 1 year
+                CurveKnot {
+                    t: 2.00,
+                    rate: 0.0425,
+                }, // 2 years
             ],
             day_count: DayCount::Act360,
         }
@@ -136,7 +153,8 @@ impl SofrCurve {
     /// Calculate time to maturity from current timestamp and maturity timestamp
     pub fn time_to_maturity(&self, current_ts: u64, maturity_ts: u32) -> f64 {
         let seconds_to_maturity = (maturity_ts as i64 - current_ts as i64).max(0);
-        self.day_count.year_fraction_from_seconds(seconds_to_maturity)
+        self.day_count
+            .year_fraction_from_seconds(seconds_to_maturity)
     }
 }
 

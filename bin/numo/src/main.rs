@@ -2,7 +2,6 @@
 ///
 /// Monitors Numo Engine pools on Celo and executes arbitrage when pool-implied
 /// discount factors diverge from the SOFR curve.
-
 use anyhow::Result;
 use clap::Parser;
 use dotenv::dotenv;
@@ -111,17 +110,15 @@ async fn main() -> Result<()> {
     info!(bot_address = ?address, "Wallet loaded");
 
     // Wrap provider with signer and nonce manager
-    let provider = Arc::new(
-        provider
-            .nonce_manager(address)
-            .with_signer(wallet)
-    );
+    let provider = Arc::new(provider.nonce_manager(address).with_signer(wallet));
 
     // Parse pool addresses
     let pool_addresses: Result<Vec<Address>> = args
         .pool_addresses
         .iter()
-        .map(|s| Address::from_str(s).map_err(|e| anyhow::anyhow!("Invalid pool address {}: {}", s, e)))
+        .map(|s| {
+            Address::from_str(s).map_err(|e| anyhow::anyhow!("Invalid pool address {}: {}", s, e))
+        })
         .collect();
     let pool_addresses = pool_addresses?;
 
@@ -145,7 +142,10 @@ async fn main() -> Result<()> {
     // Initialize SOFR curve with default USD rates
     // TODO: Load real SOFR rates from data provider
     let sofr_curve = SofrCurve::default_usd();
-    info!("SOFR curve initialized with {} knots", sofr_curve.knots.len());
+    info!(
+        "SOFR curve initialized with {} knots",
+        sofr_curve.knots.len()
+    );
 
     // Set up Artemis Engine
     let mut engine: Engine<Event, Action> = Engine::default();

@@ -1,3 +1,41 @@
-/target
-/.github
-Dockerfile
+# Git
+.git
+.gitignore
+.github
+
+# Rust
+target/
+**/*.rs.bk
+*.pdb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Documentation
+*.md
+!README.md
+docs/
+
+# CI/CD
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# Testing
+tests/
+test_data/
+
+# Misc
+*.log
+tmp/
+temp/
+.claude/

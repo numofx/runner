@@ -1,22 +1,23 @@
 /// Main strategy module for Numo Engine arbitrage
-
 use std::collections::HashMap;
 use std::sync::Arc;
 
-use async_trait::async_trait;
 use anyhow::Result;
+use async_trait::async_trait;
 use ethers::prelude::*;
 use tracing::{debug, info, warn};
 
 use artemis_core::types::Strategy;
 
-use numo_bindings::{NumoArbRouter, NumoEnginePool};
 use crate::pricing::{
     apply_slippage, get_pool_state, marginal_price_base_per_fy, meets_edge_threshold,
     solve_fy_amount_to_target, PoolState,
 };
 use crate::sofr::SofrCurve;
-use crate::types::{Action, ArbOpportunity, Config, Event, GasBidInfo, NewBlockEvent, SubmitTxToMempool};
+use crate::types::{
+    Action, ArbOpportunity, Config, Event, GasBidInfo, NewBlockEvent, SubmitTxToMempool,
+};
+use numo_bindings::{NumoArbRouter, NumoEnginePool};
 
 /// Numo arbitrage strategy
 /// Monitors Numo Engine pools and executes arbitrage when prices diverge from SOFR curve
@@ -42,11 +43,7 @@ pub struct NumoArb<M: Middleware> {
 
 impl<M: Middleware + Clone + 'static> NumoArb<M> {
     /// Create a new Numo arbitrage strategy
-    pub fn new(
-        client: Arc<M>,
-        config: Config,
-        sofr_curve: SofrCurve,
-    ) -> Self {
+    pub fn new(client: Arc<M>, config: Config, sofr_curve: SofrCurve) -> Self {
         let router = NumoArbRouter::new(config.router_address, client.clone());
 
         Self {
@@ -60,16 +57,10 @@ impl<M: Middleware + Clone + 'static> NumoArb<M> {
     }
 
     /// Find the best arbitrage opportunity between pools
-    async fn find_best_opportunity(
-        &self,
-        current_ts: u64,
-    ) -> Result<Option<ArbOpportunity>> {
+    async fn find_best_opportunity(&self, current_ts: u64) -> Result<Option<ArbOpportunity>> {
         if self.pool_states.len() < 2 {
             return Ok(None);
         }
-
-        let mut best_opp: Option<ArbOpportunity> = None;
-        let mut max_profit: u128 = 0;
 
         // Get prices for all pools
         let mut pool_prices: Vec<(Address, U256, f64)> = Vec::new();
@@ -145,12 +136,8 @@ impl<M: Middleware + Clone + 'static> NumoArb<M> {
 
         // Solve for optimal FY amount to trade
         let rich_pool = NumoEnginePool::new(rich_addr, self.client.clone());
-        let fy_amount = solve_fy_amount_to_target(
-            &rich_pool,
-            target_price,
-            self.config.max_fy_amount,
-        )
-        .await?;
+        let fy_amount =
+            solve_fy_amount_to_target(&rich_pool, target_price, self.config.max_fy_amount).await?;
 
         let fy_amount = match fy_amount {
             Some(amt) if amt > 0 => amt,
@@ -198,12 +185,8 @@ impl<M: Middleware + Clone + 'static> NumoArb<M> {
             rich_price,
         };
 
-        if expected_profit > max_profit {
-            max_profit = expected_profit;
-            best_opp = Some(opportunity);
-        }
-
-        Ok(best_opp)
+        // Return the opportunity (in future: could compare multiple pairs)
+        Ok(Some(opportunity))
     }
 
     /// Execute an arbitrage opportunity
@@ -240,10 +223,7 @@ impl<M: Middleware + Clone + 'static> NumoArb<M> {
             bid_percentage: self.config.bid_percentage,
         });
 
-        let action = Action::SubmitTx(SubmitTxToMempool {
-            tx,
-            gas_bid_info,
-        });
+        let action = Action::SubmitTx(SubmitTxToMempool { tx, gas_bid_info });
 
         Ok(Some(action))
     }

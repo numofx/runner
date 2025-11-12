@@ -1,16 +1,12 @@
 [workspace]
 members = [
-    "bin/artemis",
     "bin/numo",
-    "bin/cli",
     "crates/artemis-core",
-    "crates/generator",
-    "crates/strategies/*",
-    "crates/clients/*",
-    "examples/*",
+    "crates/strategies/numo-arb",
 ]
+resolver = "2"
 
-default-members = ["bin/artemis", "bin/numo", "bin/cli"]
+default-members = ["bin/numo"]
 
 [workspace.dependencies]
 ## eth
