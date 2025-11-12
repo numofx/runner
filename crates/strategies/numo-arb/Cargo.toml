@@ -12,7 +12,7 @@ numo-bindings = { path = "./bindings" }
 ethers.workspace = true
 
 ## async
-async-trait = "0.1.64"
+async-trait = "0.1.89"
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
 
 ## misc

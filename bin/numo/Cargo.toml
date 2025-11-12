@@ -14,7 +14,7 @@ ethers-signers.workspace = true
 
 ## async
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
-async-trait = "0.1.64"
+async-trait = "0.1.89"
 
 ## cli
 clap = { version = "4.2", features = ["derive", "env"] }
