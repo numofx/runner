@@ -15,7 +15,7 @@ jobs:
     name: Cargo Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -30,7 +30,7 @@ jobs:
     name: Cargo Deny
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Dependency Review
         uses: actions/dependency-review-action@v4
@@ -57,7 +57,7 @@ jobs:
     name: Check Outdated Dependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -73,7 +73,7 @@ jobs:
     name: Slither Smart Contract Analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -97,7 +97,7 @@ jobs:
     name: Mythril Smart Contract Analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
