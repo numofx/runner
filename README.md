@@ -1,10 +1,6 @@
 # Runner 🏃
 
-An automated arbitrage bot that keeps the discount factors of **Numo Engine pools** (e.g. `USDT/fyUSDT` pools) aligned with real-world fixed-income markets by executing profitable trades when prices diverge from the SOFR curve.
-
-## Overview
-
-The bot monitors Numo Engine pools on Celo and executes atomic arbitrage transactions when pool-implied discount factors diverge from the SOFR curve.
+An automated arbitrage bot that keeps the discount factors of **Numo Engine pools** (e.g. `USDT/fyUSDT` pools) aligned with real world fixed-income markets by executing profitable trades when prices diverge from a short term interest rate (STIR) curve.
 
 ### Architecture
 
