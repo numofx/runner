@@ -25,6 +25,6 @@ tracing = "0.1.41"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 ## misc
-anyhow = "1.0.70"
+anyhow = "1.0.100"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

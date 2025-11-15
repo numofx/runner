@@ -22,7 +22,7 @@ tokio-stream = { version = "0.1", features = ['sync'] }
 jsonrpsee = { version = "0.19", features = ["client", "async-client"] }
 
 ## misc
-anyhow = "1.0.70"
+anyhow = "1.0.100"
 thiserror = "1.0.40"
 tracing = "0.1.41"
 tower = "0.4.13"
