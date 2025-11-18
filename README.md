@@ -1,6 +1,6 @@
 # Runner 🏃
 
-An automated arbitrage bot that keeps the discount factors of **Numo Engine pools** (e.g. `USDT/fyUSDT` pools) aligned with real world fixed-income markets by executing profitable trades when prices diverge from a short term interest rate (STIR) curve.
+Arbitrage bot that keeps the forward curve created from ZCB pools on **Numo Engine** aligned with real world fixed income markets (e.g. STIR markets).
 
 ### Architecture
 
